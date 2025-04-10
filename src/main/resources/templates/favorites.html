@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Favorite Movies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        img {
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .movie-card {
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px auto;
+            width: 300px;
+        }
+        button {
+            background-color: crimson;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: dodgerblue;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Favorite Movies</h1>
+
+<div th:if="${favorites.isEmpty()}">
+    <p>No favorite movies added yet.</p>
+</div>
+
+<div th:each="fav : ${favorites}" class="movie-card">
+    <h2 th:text="${fav.title}"></h2>
+    <img th:src="'https://image.tmdb.org/t/p/w200' + ${fav.posterPath}" alt="Movie Poster"/>
+    <form method="post" th:action="@{/favorite/remove/{id}(id=${fav.id})}">
+        <button type="submit">Remove from Favorites</button>
+    </form>
+</div>
+
+<a th:href="@{/}">← Back to Home</a>
+
+</body>
+</html>
