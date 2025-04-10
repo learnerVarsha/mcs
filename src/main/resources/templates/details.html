@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Movie Details</title>
+</head>
+<body>
+
+<h2 th:text="${movie.title}"></h2>
+<img th:src="@{'https://image.tmdb.org/t/p/w500' + ${movie.poster_path}}" alt="Poster"/>
+<p th:text="${movie.overview}"></p>
+<p>Release Date: <span th:text="${movie.release_date}"></span></p>
+<p>Rating: <span th:text="${movie.vote_average}"></span></p>
+
+<a href="/" class="btn btn-primary">Back to Home</a>
+
+</body>
+</html>

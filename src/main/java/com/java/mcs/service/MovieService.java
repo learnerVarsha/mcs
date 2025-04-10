@@ -58,5 +58,11 @@ public class MovieService {
     public List<FavoriteMovie> getFavoriteMovies() {
         return repository.findAll();
     }
+
+    public Movie getMovieById(Long id) {
+        String url = apiUrl + "/movie/" + id + "?api_key=" + apiKey;
+        return restTemplate.getForObject(url, Movie.class);
+    }
+
 }
 

@@ -41,5 +41,13 @@ public class MovieController {
         movieService.removeFromFavorites(id);
         return "redirect:/favorites";
     }
+
+    // View Movie Details
+    @GetMapping("/movie/{id}")
+    public String movieDetails(@PathVariable Long id, Model model) {
+        Movie movie = movieService.getMovieById(id);
+        model.addAttribute("movie", movie);
+        return "details";  // details.html
+    }
 }
 
