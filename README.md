@@ -9,12 +9,10 @@ A responsive web application built using **Java Spring Boot** that fetches real-
 - 🔍 **Search** for any movie by title
 - 📈 **View trending movies** on homepage
 - 📝 **Detailed movie page** with poster, rating, overview, release date
-- ❤️ **Add or remove favorites** from both list and detail views
+- ❤️ **Add or remove favorites**
 - 🧠 **Favorites are stored** in-memory using H2 database
 - 🔥 **Dynamic UI feedback**:
   - Heart icons turn red when favorited ❤️
-  - Bootstrap toasts on adding a favorite
-  - No page reload on favoriting (via JavaScript enhancement)
 - 🖼️ Graceful fallback if a movie has no poster
 
 ---
