@@ -26,6 +26,24 @@
             padding: 6px 12px;
             border-radius: 8px;
         }
+		.toast-message {
+		            position: fixed;
+		            top: 20px;
+		            right: 20px;
+		            background-color: #d4edda;
+		            color: #155724;
+		            padding: 12px 20px;
+		            border-radius: 8px;
+		            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+		            z-index: 1000;
+		            animation: fadeOut 3s ease-out forwards;
+		        }
+
+		  @keyframes fadeOut {
+		            0% { opacity: 1; }
+		            70% { opacity: 1; }
+		            100% { opacity: 0; display: none; }
+		        }
     </style>
 </head>
 <body>
@@ -58,11 +76,16 @@
 			    <input type="hidden" th:name="id" th:value="${movie.id}" />
 			    <input type="hidden" th:name="title" th:value="${movie.title}" />
 			    <input type="hidden" th:name="poster_path" th:value="${movie.poster_path}" />
-			    <button type="submit" class="btn btn-danger btn-lg">
-			        <i class="fas fa-heart me-2"></i>Add to Favorites
-			    </button>
+				<input type="hidden" th:name="redirect" th:value="@{'/movie/' + ${movie.id}}" />
+			
+				
+				<button type="submit" class="btn"
+				                        th:classappend="${param.success} ? 'btn-success' : 'btn-danger'"
+				                        th:text="${param.success} ? '✓ Added to Favorites' : '❤️ Add to Favorites'">
+				                </button>
 			</form>
 
+						
             <a href="/" class="btn btn-outline-secondary mt-3">← Back to Home</a>
         </div>
     </div>
