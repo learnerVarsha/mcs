@@ -52,7 +52,8 @@
     <div class="row">
         <!-- Poster -->
         <div class="col-md-4 text-center">
-            <img th:src="@{'https://image.tmdb.org/t/p/w500' + ${movie.poster_path}}" alt="Poster" class="movie-poster">
+			<img th:src="${movie.poster_path != null} ? 'https://image.tmdb.org/t/p/w500' + ${movie.poster_path} : '/images/placeholder.png'" alt="Poster" class="movie-poster"/>
+
         </div>
 
         <!-- Info -->

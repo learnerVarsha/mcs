@@ -67,6 +67,14 @@ public class MovieService {
     public boolean isFavorite(Long id) {
         return repository.existsById(id);
     }
+    
+    public List<Movie> searchMovies(String query) {
+        String url = apiUrl + "/search/movie?api_key=" + apiKey + "&query=" + query;
+        ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
+        List<Map<String, Object>> results = (List<Map<String, Object>>) response.getBody().get("results");
+        return results.stream().map(this::mapToMovie).collect(Collectors.toList());
+    }
+
 
 }
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.java.mcs.entity.FavoriteMovie;
 import com.java.mcs.model.Movie;
 import com.java.mcs.service.MovieService;
 
@@ -66,4 +67,16 @@ public class MovieController {
 	    model.addAttribute("isFavorite", isFavorite);
 	    return "details";
 	}
+	
+	@GetMapping("/search")
+	public String searchMovies(@RequestParam("query") String query, Model model) {
+	    List<Movie> movies = movieService.searchMovies(query);
+	    List<Long> favoriteIds = movieService.getFavoriteMovies().stream()
+	            .map(FavoriteMovie::getId)
+	            .collect(Collectors.toList());
+	    model.addAttribute("movies", movies);
+	    model.addAttribute("favoriteIds", favoriteIds);
+	    return "home";
+	}
+
 }
