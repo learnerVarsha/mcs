@@ -3,40 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <title>Movie Catalogue</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        .movie-card img {
+            height: 400px;
+            object-fit: cover;
+        }
+        .favorite-icon {
+            font-size: 1.4rem;
+            color: gray;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+        .favorite-icon.favorited {
+            color: red;
+        }
+    </style>
 </head>
 <body>
+<div class="container py-5">
 
-<div class="container mt-4">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">🎬 Movie Catalogue</h1>
+        <p class="lead text-muted">Browse trending movies & save your favorites</p>
+        <a href="/favorites" class="btn btn-success btn-sm">View Favorites</a>
+    </div>
 
-    <h1 class="text-center mb-4">Trending Movies</h1>
-
-    <div class="row" th:if="${movies != null}">
-        <div class="col-md-3 mb-4" th:each="movie : ${movies}">
-            <div class="card h-100">
+    <!-- Movie Grid -->
+    <div class="row g-4" th:if="${movies != null}">
+        <div class="col-md-3" th:each="movie : ${movies}">
+            <div class="card movie-card h-100 shadow-sm">
                 <img th:src="'https://image.tmdb.org/t/p/w300' + ${movie.poster_path}" class="card-img-top" alt="Poster">
-                <div class="card-body">
+                <div class="card-body d-flex flex-column justify-content-between">
                     <h5 class="card-title" th:text="${movie.title}"></h5>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <!-- Add to Favorites -->
+                        <form method="post" th:action="@{/favorite/add}" class="favorite-form d-inline">
+                            <input type="hidden" name="id" th:value="${movie.id}" />
+                            <input type="hidden" name="title" th:value="${movie.title}" />
+                            <input type="hidden" name="poster_path" th:value="${movie.poster_path}" />
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <i class="fas fa-heart favorite-icon"></i>
+                            </button>
+                        </form>
 
-                    <form method="post" th:action="@{/favorite/add}">
-                        <input type="hidden" name="id" th:value="${movie.id}" />
-                        <input type="hidden" name="title" th:value="${movie.title}" />
-                        <input type="hidden" name="poster_path" th:value="${movie.poster_path}" />
-                        <button type="submit" class="btn btn-primary btn-sm mt-2">Add to Favorites</button>
-                    </form>
-
-                    <a th:href="@{/movie/{id}(id=${movie.id})}" class="btn btn-secondary btn-sm mt-2">View Details</a>
-
+                        <!-- View Details -->
+                        <a th:href="@{/movie/{id}(id=${movie.id})}" class="btn btn-outline-secondary btn-sm">Details</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="text-center mt-4">
-        <a href="/favorites" class="btn btn-success">View Favorites</a>
-    </div>
-
 </div>
+
+<!-- Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="toastSuccess" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">Added to favorites!</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".favorite-form").forEach(form => {
+            const icon = form.querySelector(".favorite-icon");
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                fetch(form.action, {
+                    method: "POST",
+                    body: new FormData(form)
+                }).then(response => {
+                    if (response.ok) {
+                        icon.classList.add("favorited");
+                        const toast = new bootstrap.Toast(document.getElementById('toastSuccess'));
+                        toast.show();
+                    }
+                });
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
