@@ -63,6 +63,10 @@ public class MovieService {
         String url = apiUrl + "/movie/" + id + "?api_key=" + apiKey;
         return restTemplate.getForObject(url, Movie.class);
     }
+    
+    public boolean isFavorite(Long id) {
+        return repository.existsById(id);
+    }
 
 }
 
