@@ -33,7 +33,7 @@ A responsive web application built using **Java Spring Boot** that fetches real-
 
 | Home View | Detail Page | Favorites Page |
 |-----------|-------------|----------------|
-| ![home](screenshots/home.png) | ![details](screenshots/details.png) | ![favorites](screenshots/favorites.png) |
+| ![home](screenshots/home.PNG) | ![details](screenshots/details.PNG) | ![favorites](screenshots/favorites.PNG) |
 
 ---
 
